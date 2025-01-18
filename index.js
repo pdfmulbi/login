@@ -4,7 +4,6 @@ import { postJSON } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
 // Event Listener setelah DOM dimuat
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.querySelector(".submit-btn");
-    const googleLoginButton = document.querySelector(".google-btn");
 
     // Login Manual
     if (loginButton) {
@@ -34,8 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 function (response) {
                     // Tindak lanjut respons backend
                     if (response.status >= 200 && response.status < 300) {
-                        alert("Login berhasil! Token: " + response.data.token);
-                        console.log("User Data:", response.data);
+                        alert("Login berhasil!");
+                        console.log("User Data (without token):", { email: response.data.email, name: response.data.name });
+                        // Redirect to another page
+                        window.location.href = "https://pdfmulbi.github.io/merge.html";
                         // Reset input setelah berhasil login
                         document.querySelector("input[name='email']").value = "";
                         document.querySelector("#password").value = "";
@@ -45,7 +46,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             );
         });
-        } else {
-            console.error("Tombol Google Login tidak ditemukan.");
-        }
-    });
+    }
+});
