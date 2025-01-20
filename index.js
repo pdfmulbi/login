@@ -1,50 +1,47 @@
 // Import fungsi postJSON
 import { postJSON } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
 
-// Event Listener setelah DOM dimuat
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.querySelector(".submit-btn");
 
-    // Login Manual
     if (loginButton) {
         loginButton.addEventListener("click", function (event) {
             event.preventDefault(); // Mencegah reload halaman
 
-            // Ambil input email dan password
             const email = document.querySelector("input[name='email']").value || "";
             const password = document.querySelector("#password").value || "";
 
-            // Validasi input
             if (!email || !password) {
                 alert("Mohon isi email dan kata sandi.");
                 return;
             }
 
-            // Data yang akan dikirim ke backend
             const data = { email, password };
             const target_url = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger/pdfm/login";
 
-            // Kirim data ke backend
             postJSON(
                 target_url,
                 "Content-Type",
                 "application/json",
                 data,
                 function (response) {
-                    // Tindak lanjut respons backend
                     if (response.status >= 200 && response.status < 300) {
+                        const token = response.data.token;
+
+                        // Simpan token ke localStorage
+                        localStorage.setItem("authToken", token);
                         alert("Login berhasil!");
-                        console.log("User Data (without token):", { email: response.data.email, name: response.data.name });
-                        // Redirect to another page
-                        window.location.href = "https://pdfmulbi.github.io/merge.html";
-                        // Reset input setelah berhasil login
-                        document.querySelector("input[name='email']").value = "";
-                        document.querySelector("#password").value = "";
+
+                        // Redirect ke homepage
+                        window.location.href = "https://pdfmulbi.github.io/";
                     } else {
                         alert("Gagal login: " + (response.data.message || "Kesalahan tidak diketahui"));
                     }
                 }
-            );
+            ).catch((error) => {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan. Silakan coba lagi.");
+            });
         });
     }
 });
