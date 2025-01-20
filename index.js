@@ -27,9 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 function (response) {
                     if (response.status >= 200 && response.status < 300) {
                         const token = response.data.token;
+                        const userName = response.data.userName;
 
                         // Simpan token ke localStorage
                         localStorage.setItem("authToken", token);
+                        localStorage.setItem("userName", userName);
                         alert("Login berhasil!");
 
                         // Redirect ke homepage
