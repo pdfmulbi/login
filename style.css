@@ -57,16 +57,21 @@
     font-size: 0.875rem;
 }
 
-/* Form Elements */
+/* Input Fields */
 .form {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
+.relative {
+    position: relative;
+}
+
 .input {
     width: 100%;
     padding: 8px 12px;
+    padding-left: 36px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
     transition: border-color 0.3s;
@@ -78,11 +83,20 @@
     box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
 }
 
-/* Show/Hide Password Button */
-.relative {
-    position: relative;
+.icon-left {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
 }
 
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Toggle Password Button */
 .toggle-password {
     position: absolute;
     right: 10px;
@@ -103,12 +117,6 @@
 
 .toggle-password:hover .icon {
     color: #ef4444;
-}
-
-.icon {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
 }
 
 /* Forgot Password Link */
