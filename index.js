@@ -1,5 +1,7 @@
 // Import fungsi postJSON
-import { postJSON } from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
+import {
+    postJSON
+} from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.querySelector(".submit-btn");
@@ -16,7 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const data = { email, password };
+            const data = {
+                email,
+                password
+            };
             const target_url = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger/pdfm/login";
 
             postJSON(
@@ -46,4 +51,24 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Select elements
+    const passwordInput = document.getElementById('password');
+    const togglePasswordButton = document.getElementById('togglePassword');
+    const toggleIcon = togglePasswordButton.querySelector('i');
+
+    // Add event listener to the toggle button
+    togglePasswordButton.addEventListener('click', () => {
+        // Check current state
+        const isPasswordVisible = passwordInput.type === 'text';
+
+        // Toggle password visibility
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+
+        // Toggle the icon
+        toggleIcon.classList.toggle('fa-eye', !isPasswordVisible);
+        toggleIcon.classList.toggle('fa-eye-slash', isPasswordVisible);
+    });
 });
