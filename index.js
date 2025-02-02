@@ -1,5 +1,5 @@
 // Import fungsi postJSON
-import {postJSON} from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
+// import {postJSON} from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.querySelector(".submit-btn");
