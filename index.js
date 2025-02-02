@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         // Simpan token ke localStorage
                         localStorage.setItem("authToken", token);
-                        localStorage.setItem("userName", userName);
+                        localStorage.setItem("userData", JSON.stringify(user));
                         alert("Login berhasil!");
 
                         // Redirect ke homepage
