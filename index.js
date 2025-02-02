@@ -1,7 +1,5 @@
 // Import fungsi postJSON
-import {
-    postJSON
-} from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
+import {postJSON} from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.querySelector(".submit-btn");
@@ -36,7 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         // Simpan token ke localStorage
                         localStorage.setItem("authToken", token);
-                        localStorage.setItem("userData", JSON.stringify(user));
+                        localStorage.setItem("userName", data.userName);
+                        localStorage.setItem("isAdmin", data.isAdmin);
                         alert("Login berhasil!");
 
                         // Redirect ke homepage
