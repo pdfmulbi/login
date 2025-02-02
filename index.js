@@ -5,49 +5,46 @@ document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.querySelector(".submit-btn");
 
     if (loginButton) {
-        loginButton.addEventListener("click", function (event) {
-            event.preventDefault(); // Mencegah reload halaman
+        loginButton.addEventListener("click", async function (event) {
+            event.preventDefault();
 
-            const email = document.querySelector("input[name='email']").value || "";
-            const password = document.querySelector("#password").value || "";
+            const email = document.querySelector("input[name='email']").value.trim();
+            const password = document.querySelector("#password").value.trim();
 
             if (!email || !password) {
                 alert("Mohon isi email dan kata sandi.");
                 return;
             }
 
-            const data = {
-                email,
-                password
-            };
+            const data = { email, password };
             const target_url = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger/pdfm/login";
 
-            postJSON(
-                target_url,
-                "Content-Type",
-                "application/json",
-                data,
-                function (response) {
-                    if (response.status >= 200 && response.status < 300) {
-                        const token = response.data.token;
-                        const userName = response.data.userName;
+            try {
+                const response = await postJSON(target_url, "Content-Type", "application/json", data);
 
-                        // Simpan token ke localStorage
-                        localStorage.setItem("authToken", token);
-                        localStorage.setItem("userName", data.userName);
-                        localStorage.setItem("isAdmin", data.isAdmin);
-                        alert("Login berhasil!");
+                if (response.status >= 200 && response.status < 300) {
+                    const { token, userName, isAdmin } = response.data;
 
-                        // Redirect ke homepage
-                        window.location.href = "https://pdfmulbi.github.io/";
+                    // Simpan ke localStorage
+                    localStorage.setItem("authToken", token);
+                    localStorage.setItem("userName", userName);
+                    localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
+
+                    alert("Login berhasil!");
+
+                    // Redirect berdasarkan status admin
+                    if (isAdmin) {
+                        window.location.href = "https://pdfmulbi.github.io/dashboard";
                     } else {
-                        alert("Gagal login: " + (response.data.message || "Kesalahan tidak diketahui"));
+                        window.location.href = "https://pdfmulbi.github.io/";
                     }
+                } else {
+                    alert("Gagal login: " + (response.data.message || "Kesalahan tidak diketahui"));
                 }
-            ).catch((error) => {
+            } catch (error) {
                 console.error("Error:", error);
-                alert("Terjadi kesalahan. Silakan coba lagi.");
-            });
+                alert("Terjadi kesalahan saat login. Silakan coba lagi.");
+            }
         });
     }
 });
@@ -69,5 +66,5 @@ document.addEventListener('DOMContentLoaded', () => {
         // Toggle the icon
         toggleIcon.classList.toggle('fa-eye', !isPasswordVisible);
         toggleIcon.classList.toggle('fa-eye-slash', isPasswordVisible);
-    });
+    });
 });
