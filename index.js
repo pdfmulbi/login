@@ -27,21 +27,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                     body: JSON.stringify(data)
                 })
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || "Login gagal.");
-                }
-
-                const result = await response.json();
-                
-                // Simpan token dan data user di localStorage
-                localStorage.setItem("authToken", result.token);
-                localStorage.setItem("userName", result.userName);
-                localStorage.setItem("isAdmin", result.isAdmin ? "true" : "false");
-
-                alert("Login berhasil!");
-                window.location.href = "https://pdfmulbi.github.io/";
+                .then(response => {
+                    if (!response.ok) throw new Error("Login gagal.");
+                    return response.json();
+                })
+                .then(result => {
+                    localStorage.setItem("authToken", result.token);
+                    localStorage.setItem("userName", result.userName);
+                    localStorage.setItem("isAdmin", result.isAdmin ? "true" : "false");
+                    
+                    alert("Login berhasil!");
+                    window.location.href = "https://pdfmulbi.github.io/";
+                })
+                .catch(error => {
+                    console.error("Error saat login:", error);
+                    alert("Terjadi kesalahan saat fetch data. Silakan coba lagi.");
+                });
             } catch (error) {
                 console.error("Error saat login:", error);
                 alert("Terjadi kesalahan saat login. Silakan coba lagi.");
