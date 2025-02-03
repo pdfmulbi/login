@@ -1,6 +1,3 @@
-// Import fungsi postJSON
-// import {postJSON} from 'https://cdn.jsdelivr.net/gh/jscroot/lib@0.2.0/api.js';
-
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.querySelector(".submit-btn");
 
@@ -37,12 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Debugging: Lihat response dari server
                 console.log("Response dari server:", result);
 
+                // Pastikan data yang dibutuhkan ada
                 if (!result.token || !result.userName) {
                     throw new Error("Data login tidak lengkap.");
                 }
 
-                // Pastikan `isAdmin` adalah boolean
-                const isAdmin = result.isAdmin === true;
+                // Pastikan isAdmin dikembalikan sebagai boolean
+                const isAdmin = result.hasOwnProperty("isAdmin") ? result.isAdmin : false;
+
+                // Debugging: Log nilai isAdmin sebelum disimpan
+                console.log("isAdmin dari server:", isAdmin);
 
                 // Simpan data ke localStorage
                 localStorage.setItem("authToken", result.token);
