@@ -20,29 +20,30 @@ document.addEventListener("DOMContentLoaded", function () {
             const target_url = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger/pdfm/login";
 
             try {
-                const response = await postJSON(target_url, "Content-Type", "application/json", data);
+                const response = await fetch(target_url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
 
-                if (response.status >= 200 && response.status < 300) {
-                    const { token, userName, isAdmin } = response.data;
-
-                    // Simpan ke localStorage
-                    localStorage.setItem("authToken", token);
-                    localStorage.setItem("userName", userName);
-                    localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
-
-                    alert("Login berhasil!");
-
-                    // Redirect berdasarkan status admin
-                    if (isAdmin) {
-                        window.location.href = "https://pdfmulbi.github.io/dashboard";
-                    } else {
-                        window.location.href = "https://pdfmulbi.github.io/";
-                    }
-                } else {
-                    alert("Gagal login: " + (response.data.message || "Kesalahan tidak diketahui"));
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || "Login gagal.");
                 }
+
+                const result = await response.json();
+                
+                // Simpan token dan data user di localStorage
+                localStorage.setItem("authToken", result.token);
+                localStorage.setItem("userName", result.userName);
+                localStorage.setItem("isAdmin", result.isAdmin ? "true" : "false");
+
+                alert("Login berhasil!");
+                window.location.href = "https://pdfmulbi.github.io/";
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Error saat login:", error);
                 alert("Terjadi kesalahan saat login. Silakan coba lagi.");
             }
         });
