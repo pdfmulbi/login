@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const target_url = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger/pdfm/login";
 
             try {
-                const response = await fetch(target_url, {
+                fetch(target_url, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(data),
-                });
+                    body: JSON.stringify(data)
+                })
 
                 if (!response.ok) {
                     const errorData = await response.json();
