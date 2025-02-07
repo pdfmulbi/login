@@ -9,7 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const password = document.querySelector("#password").value.trim();
 
             if (!email || !password) {
-                alert("Mohon isi email dan kata sandi.");
+                Swal.fire({
+                    icon: "warning",
+                    title: "Peringatan!",
+                    text: "Mohon isi email dan kata sandi.",
+                    confirmButtonText: "OK"
+                });
                 return;
             }
 
@@ -50,32 +55,47 @@ document.addEventListener("DOMContentLoaded", function () {
                 localStorage.setItem("userName", result.userName);
                 localStorage.setItem("isAdmin", isAdmin ? "true" : "false");
 
-                alert("Login berhasil!");
-                window.location.href = "https://pdfmulbi.github.io/";
+                // Notifikasi login sukses dengan redirect
+                Swal.fire({
+                    icon: "success",
+                    title: "Login Berhasil!",
+                    text: "Anda akan dialihkan...",
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    window.location.href = "https://pdfmulbi.github.io/";
+                });
+
             } catch (error) {
                 console.error("Error saat login:", error);
-                alert("Terjadi kesalahan saat login. Silakan coba lagi.");
+
+                Swal.fire({
+                    icon: "error",
+                    title: "Login Gagal!",
+                    text: "Terjadi kesalahan saat login. Silakan coba lagi.",
+                    confirmButtonText: "OK"
+                });
             }
         });
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     // Select elements
-    const passwordInput = document.getElementById('password');
-    const togglePasswordButton = document.getElementById('togglePassword');
-    const toggleIcon = togglePasswordButton.querySelector('i');
+    const passwordInput = document.getElementById("password");
+    const togglePasswordButton = document.getElementById("togglePassword");
+    const toggleIcon = togglePasswordButton.querySelector("i");
 
     // Add event listener to the toggle button
-    togglePasswordButton.addEventListener('click', () => {
+    togglePasswordButton.addEventListener("click", () => {
         // Check current state
-        const isPasswordVisible = passwordInput.type === 'text';
+        const isPasswordVisible = passwordInput.type === "text";
 
         // Toggle password visibility
-        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+        passwordInput.type = isPasswordVisible ? "password" : "text";
 
         // Toggle the icon
-        toggleIcon.classList.toggle('fa-eye', !isPasswordVisible);
-        toggleIcon.classList.toggle('fa-eye-slash', isPasswordVisible);
+        toggleIcon.classList.toggle("fa-eye", !isPasswordVisible);
+        toggleIcon.classList.toggle("fa-eye-slash", isPasswordVisible);
     });
 });
